@@ -46,14 +46,12 @@ c_b = 0
 
 for i in range(n):
     for j in range(n):
-        # print("     " + str(i), str(j) + "       ")
         c += dfs(i, j, g[i][j], 0)
 
 check = [[False]*n for i in range(n)]
 
 for i in range(n):
     for j in range(n):
-        # print("     " + str(i), str(j) + "       ")
         c_b += dfs(i, j, g[i][j], 1)
 
 
