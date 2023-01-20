@@ -46,7 +46,7 @@ for _ in range(t):
 
 
 '''
-이중 우선순위 큐
+이중 우선순위 큐 골드4
 https://www.acmicpc.net/problem/7662
 - 자료 구조
 - 트리를 사용한 집합과 맵

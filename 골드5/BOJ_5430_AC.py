@@ -31,7 +31,7 @@ for i in range(t):
     else:
         print("[" + ','.join(reversed(list(d))) + ']')
 '''
-AC 다국어
+AC 골드5
 시간 제한	메모리 제한	제출	정답	맞힌 사람	정답 비율
 1 초	256 MB	98257	21781	15346	19.838%
 문제

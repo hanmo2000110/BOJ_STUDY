@@ -1,3 +1,6 @@
+'''
+노드사이의 거리 골드5
+'''
 from collections import deque
 
 n, m = map(int, input().split())

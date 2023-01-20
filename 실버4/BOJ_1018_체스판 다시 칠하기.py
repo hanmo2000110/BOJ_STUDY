@@ -1,3 +1,6 @@
+'''
+체스판 다시 칠하기 실버4
+'''
 n, m = map(int, input().split())
 data = [list(input()) for x in range(n)]
 # for i in range(n):

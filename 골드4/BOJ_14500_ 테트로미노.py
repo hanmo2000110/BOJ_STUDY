@@ -43,7 +43,7 @@ for i in range(m):
         result = max(result, check(i, j))
 print(result)
 '''
-테트로미노
+테트로미노 골드4
 시간 제한	메모리 제한	제출	정답	맞힌 사람	정답 비율
 2 초	512 MB	67917	25435	16564	35.528%
 문제

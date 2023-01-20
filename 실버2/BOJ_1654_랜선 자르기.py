@@ -1,3 +1,8 @@
+'''
+랜선 자르기 실버2
+'''
+
+
 def check(array, target, num):
     count = 0
     for n in array:

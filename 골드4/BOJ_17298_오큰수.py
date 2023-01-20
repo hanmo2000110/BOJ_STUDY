@@ -22,11 +22,9 @@ while True:
     i += 1
 
 print(" ".join(result))
-# for i in count:
-#     print(-1, end=" ")
 
 '''
-오큰수
+오큰수 골드4
 시간 제한	메모리 제한	제출	정답	맞힌 사람	정답 비율
 1 초	512 MB	54457	18309	13139	32.635%
 문제

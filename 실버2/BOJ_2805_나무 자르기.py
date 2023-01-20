@@ -29,7 +29,7 @@ treeList = list(map(int, input().split()))
 print(binary_search(0, max(treeList), m, treeList))
 
 """
-나무 자르기
+나무 자르기 실버2
 
 시간 제한	메모리 제한	제출	정답	맞힌 사람	정답 비율
 1 초	256 MB	142280	40726	25406	25.530%

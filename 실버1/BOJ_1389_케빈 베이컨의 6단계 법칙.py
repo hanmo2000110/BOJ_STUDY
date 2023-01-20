@@ -26,7 +26,7 @@ for i in range(n):
 print(m_id)
 
 '''
-케빈 베이컨의 6단계 법칙
+케빈 베이컨의 6단계 법칙 실버1
 https://www.acmicpc.net/problem/1389
 - 그래프 이론
 - 그래프 탐색
