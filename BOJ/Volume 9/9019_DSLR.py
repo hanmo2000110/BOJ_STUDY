@@ -18,6 +18,7 @@ https://www.acmicpc.net/problem/9019
 매번 str 로 변환하는 과정에서 시간을 많이 잡아먹은듯 하다
 다른 빠른 결과들이랑 비교하면 거의 6배 정도 시간 차이가 난다.
 코드는 좀 덜 직관적이더라도 내가 고생하는게 나은듯 하다
+test
 '''
 
 from collections import deque
