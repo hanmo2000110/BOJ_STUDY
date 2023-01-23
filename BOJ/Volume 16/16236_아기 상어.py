@@ -39,7 +39,8 @@ https://www.acmicpc.net/problem/16236
 
 5. 9를 입력받은 후 꼭 0으로 바꿔주어야 한다.
 
-6.
+후기 :
+구현만 꼼꼼히 하면 된다.
 '''
 from collections import deque
 from functools import cmp_to_key
