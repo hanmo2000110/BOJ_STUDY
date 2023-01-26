@@ -55,60 +55,61 @@
 
 
 시간초과 난 코드
-from sys import stdin
 
-n, k = map(int, stdin.readline().split())
-a = list(map(int,stdin.readline().split()))
-q = []
-for i in range(len(a)):
-    q.append((a[i], i))
+        from sys import stdin
 
-m = float('inf')
+        n, k = map(int, stdin.readline().split())
+        a = list(map(int,stdin.readline().split()))
+        q = []
+        for i in range(len(a)):
+            q.append((a[i], i))
 
-for i in range(n-k+1):
-    ts = sorted(q[i:i+k].copy(), reverse=True)
-    s = 0
-    for j in range(k-1):
-        s += abs(ts[j+1][1] - ts[j][1])
-    m = min(m, s)
+        m = float('inf')
 
-print(m)
+        for i in range(n-k+1):
+            ts = sorted(q[i:i+k].copy(), reverse=True)
+            s = 0
+            for j in range(k-1):
+                s += abs(ts[j+1][1] - ts[j][1])
+            m = min(m, s)
+
+        print(m)
 
 heapq 를 사용해보았지만 중간에서 지난 요소를 삭제한다는 것은
 heapq 의 정체성을 파괴하는 것이기 떄문에 결국 heapify를 해주어야 했고
 이는 정렬을 하는것과 다를바가 없었다
 
-from sys import stdin
-import heapq
+        from sys import stdin
+        import heapq
 
-n, k = map(int, stdin.readline().split())
-a = list(map(int, stdin.readline().split()))
-h = []
-m = 0
+        n, k = map(int, stdin.readline().split())
+        a = list(map(int, stdin.readline().split()))
+        h = []
+        m = 0
 
-for i in range(k):
-    heapq.heappush(h, (-a[i], i))
+        for i in range(k):
+            heapq.heappush(h, (-a[i], i))
 
 
-l = heapq.nsmallest(k, h, key=lambda x: x[0])
-s = 0
+        l = heapq.nsmallest(k, h, key=lambda x: x[0])
+        s = 0
 
-for i in range(len(l) - 1):
-    s += abs(l[i + 1][1] - l[i][1])
-m = s
+        for i in range(len(l) - 1):
+            s += abs(l[i + 1][1] - l[i][1])
+        m = s
 
-for i in range(1, n - k + 1):
-    h.remove((-a[i-1], i-1))
-    heapq.heapify(h)
-    heapq.heappush(h, (-a[i + k - 1], i + k - 1))
+        for i in range(1, n - k + 1):
+            h.remove((-a[i-1], i-1))
+            heapq.heapify(h)
+            heapq.heappush(h, (-a[i + k - 1], i + k - 1))
 
-    l = heapq.nsmallest(k, h, key=lambda x: x[0])
-    s = 0
-    for j in range(len(l) - 1):
-        s += abs(l[j + 1][1] - l[j][1])
-    m = min(m, s)
+            l = heapq.nsmallest(k, h, key=lambda x: x[0])
+            s = 0
+            for j in range(len(l) - 1):
+                s += abs(l[j + 1][1] - l[j][1])
+            m = min(m, s)
 
-print(m)
+        print(m)
 
 그렇다면 나는 무엇으로 시간복잡도를 줄여야 할까 다시 고민이다
 
