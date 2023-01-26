@@ -1,0 +1,1 @@
+print('\n'.join(map(str,reversed([i for i in range(1,int(input())+1)]))))
