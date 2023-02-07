@@ -1,51 +1,59 @@
-import sys
+from sys import stdin
 import heapq
 
 
-# 다익스트라
-def solution(start):
-    visited = [1e9 for _ in range(n + 1)] # 최단거리 테이블
-    heap = []
-    heapq.heappush(heap, [0, start])
-    visited[start] = 0
-    while heap:
-        # 가장 최단거리가 짧은 노드에 대한 정보 꺼내기
-        dist, num = heapq.heappop(heap) # 거리, 정점 번호
+def dijkstra(start):
+    q = []
+    heapq.heappush(q, (0, start))
+    distance[start] = 0
 
-        # 거리가 해당 정점의 저장된 거리보다 크다면 탐색할 필요없음.
-        if dist > visited[num]:
+    while q:
+        dist, node = heapq.heappop(q)
+
+        if distance[node] < dist:
             continue
 
-        # 해당 정점과 인접한 정점의 노드를 확인
-        for i, j in graph[num]:
-            cost = dist + j
-
-            # 인접한 노드를 거쳐서 이동하는 것이 더 빠른 경우
-            if cost < visited[i]:
-                visited[i] = cost
-                heapq.heappush(heap, [cost, i])
-
-    return visited
+        for next in graph[node]:
+            cost = distance[node] + next[1]
+            if cost < (distance[next[0]]):
+                distance[next[0]] = cost
+                heapq.heappush(q, (cost, next[0]))
 
 
-n, e = map(int, sys.stdin.readline().split())
+n, e = map(int, stdin.readline().split())
 graph = [[] for _ in range(n+1)]
+distance = [1e9 for _ in range(n+1)]
+result = [[], []]
+for _ in range(e):
+    u, v, w = map(int, stdin.readline().split())
+    graph[u].append((v, w))
+    graph[v].append((u, w))
+v1, v2 = map(int, input().split())
 
-# 양방향 그래프 표시
-for i in range(e):
-    a, b, c = map(int, sys.stdin.readline().split())
-    graph[a].append([b, c])
-    graph[b].append([a, c])
-v1, v2 = map(int, sys.stdin.readline().split())
-
-a = solution(1) # 1부터 n까지 다익스트라
-b = solution(v1) # v1부터 n까지 다익스트라
-c = solution(v2) # v2부터 n까지 다익스트라
-
-# 1-v1-v2-n 경우와 1-v2-v1-n 경우중 최단 거리를 구한다.
-answer = min(a[v1] + b[v2] + c[n], a[v2] + c[v1] + b[n])
-
-if answer >= 1e9:
+dijkstra(1)
+# print(distance)
+if distance[n] == 1e9:
     print(-1)
 else:
-    print(answer)
+    result[0].append(distance[v1])
+    result[1].append(distance[v2])
+    distance = [1e9 for _ in range(n+1)]
+    dijkstra(v1)
+    # print(distance)
+
+    result[0].append(distance[v2])
+    result[1].append(distance[n])
+    distance = [1e9 for _ in range(n+1)]
+    dijkstra(v2)
+    # print(distance)
+    result[0].append(distance[n])
+    result[1].append(distance[v1])
+
+    # print(result)
+
+    t = min(sum(result[0]), sum(result[1]))
+
+    if t >= 1e9:
+        print(-1)
+    else:
+        print(t)
