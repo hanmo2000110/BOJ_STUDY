@@ -1,60 +1,55 @@
-import collections
 import sys
-
+from collections import deque
 input = sys.stdin.readline
+ 
+def checkMid(word, target_word):
+    target_word_idx = 0
+    word_idx = 0
+    while word_idx < len(word):
+        if word[word_idx] == target_word[target_word_idx]:
+            target_word_idx += 1
+        word_idx += 1
+    if target_word_idx == len(target_word):
+        return True
+    else : 
+        return False
+    
 
-MIIS = lambda: map(int, input().split())
-directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
+def bfs(start):
+    global result 
+    visited = []
+    queue = deque([start])
+    visited.append(start)
+    # print(queue)
+    while queue:
+        target = queue.popleft()
+        # print("inside while : ",target)
+        
+        for word in words:
+            # print("inside for : ",word)
+            if word in visited or len(word) - 1 != len(target) :
+                continue
+            
+            # print(word[1:], word[:-1])
+            
+            if target in word or checkMid(word,target):
+                queue.append(word)
+                visited.append(word)
+                
+                result = word
+            # print("result : ",result)
+            # print("queue : ", queue)
+        # print()
 
-d, first_word = input().split()
-words = list(input().strip() for _ in range(int(d)))
-ans = 0
+                
 
+n, start = input().split()
+n = int(n)
+words = [input().rstrip() for _ in range(n)]
+result = start
 
-# target_word에서 한 글자 토 달기해서 사전에 있는 단어 만들 수 있는지
-def check(target_word):
-    after_words = []
-    target_word_len = len(target_word)
-    for word in words:  # 사전의 단어
-        # 글자 수 하나만 더 많아야 함
-        if (target_word_len + 1) != len(word):
-            continue
-
-        # 포함 되면(맨 앞이나 맨 뒤에 붙는 것)
-        if target_word in word:
-            after_words.append(word)
-            continue
-
-        # 중간에 포함되는지
-        target_word_idx = 0
-        word_idx = 0
-        while word_idx < len(word):
-            if word[word_idx] == target_word[target_word_idx]:
-                target_word_idx += 1
-            word_idx += 1
-        if target_word_idx == len(target_word):
-            after_words.append(word)
-
-    return after_words
-
-
-# 사전에 있고, 토 달기한 단어를 BFS에 넣어 주기
-def bfs():
-    global ans
-
-    q = collections.deque()
-    q.append(first_word)
-
-    while q:
-        word = q.popleft()
-
-        ans = word
-
-        tmp = check(word)
-        q.extend(tmp)
-
-    return
+bfs(start)
+print(result)
 
 
-bfs()
-print(ans)
+
