@@ -32,7 +32,7 @@ def bfs(start):
             
             # print(word[1:], word[:-1])
             
-            if target in word or checkMid(word,target):
+            if word[1:] == target or target == word[:-1] or checkMid(word,target):
                 queue.append(word)
                 visited.append(word)
                 
