@@ -1,65 +1,50 @@
 import sys
-from collections import defaultdict
 
-input = sys.stdin.readline
-
-my_dict = []
-
-
-def check(keyword, dictionary):
-    keyword_idx = 0
-    dictionary_idx = 0
-    while keyword_idx < len(keyword) and dictionary_idx < len(dictionary):
-        if keyword[keyword_idx] == dictionary[dictionary_idx]:
-            keyword_idx += 1
-            dictionary_idx += 1
-            if keyword_idx == len(keyword):
-                return True
-        else:
-            dictionary_idx += 1
-            if dictionary_idx == len(dictionary):
-                return False
-    return False
-
+input_func = sys.stdin.readline
+input_words = []
 
 while True:
-    tmp = input().rstrip()
-    if tmp == '-':
+    word = input_func().rstrip()
+    if word == '-':
         break
-    else:
-        my_dict.append(sorted(list(tmp)))
+    input_words.append(word)
 
 while True:
-    tmp = input().rstrip()
-    sorted_tmp = sorted(list(tmp))
-    if tmp == '#':
+    board = input_func().rstrip()
+    letter_count = [0] * 26
+    if board == '#':
         break
-    else:
-        word_use_count = defaultdict(int)
-        for word in my_dict:  # 사전의 단어를 하나씩 보면서
-            # 그 단어 만들 수 있으면
-            # if word.issubset(tmp):
-            if check(word, sorted_tmp):
-                for w in set(word):
-                    word_use_count[w] += 1
-    # 0번 등장한 알파벳 고려하기
-    for i in set(tmp):
-        if i not in word_use_count:
-            word_use_count[i] = 0
+    board_letter_count = [0] * 26
+    for letter in board:
+        board_letter_count[ord(letter) - 65] += 1
 
-    # 젤 많이/적게 쓴 알파벳 구하기
-    most_popular_cnt = max(word_use_count.values())
-    least_popular_cnt = min(word_use_count.values())
-    most_popular_alp = []
-    least_popular_alp = []
-    for key, val in word_use_count.items():
-        if val == most_popular_cnt:
-            most_popular_alp.append(key)
-        if val == least_popular_cnt:
-            least_popular_alp.append(key)
+    for input_word in input_words:
+        word_letter_count = [0] * 26
+        for letter in input_word:
+            word_letter_count[ord(letter) - 65] += 1
+        flag = True
+        for i in range(26):
+            if board_letter_count[i] < word_letter_count[i]:
+                flag = False
+        if flag:
+            for letter in set(input_word):
+                letter_count[ord(letter) - 65] += 1
 
-    # 출력
-    print(''.join(sorted(least_popular_alp)), end=' ')
-    print(least_popular_cnt, end=' ')
-    print(''.join(sorted(most_popular_alp)), end=' ')
-    print(most_popular_cnt)
+    min_count = 10**9
+    min_list = []
+    max_count = 0
+    max_list = []
+
+    for letter in set(board):
+        count = letter_count[ord(letter) - 65]
+        if min_count == count:
+            min_list.append(letter)
+        elif count < min_count:
+            min_count = count
+            min_list = [letter]
+        if max_count == count:
+            max_list.append(letter)
+        elif count > max_count:
+            max_count = count
+            max_list = [letter]
+    print(''.join(sorted(min_list)), min_count, ''.join(sorted(max_list)), max_count)
