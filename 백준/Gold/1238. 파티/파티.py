@@ -1,31 +1,36 @@
-from heapq import heappop, heappush
+import sys
+from heapq import heappush, heappop
 
-n,m,x = map(int, input().split())
-arr = [list(map(int, input().split())) for _ in range(m)]
-l = [[] for _ in range(n+1)]
-dijkstra = [[1000001 for _ in range(n+1)] for _ in range(n+1)]
+input = sys.stdin.readline
+INF = int(1e9)
 
-for fr, to, value in arr:
-    l[fr].append((to, value))
+n, m, x = map(int, input().split())
+graph = [[] for _ in range(n + 1)]
+reverse_graph = [[] for _ in range(n + 1)]
 
-for i in range(1,n+1):
-    dijkstra[i][i] = 0
+for _ in range(m):
+    u, v, w = map(int, input().split())
+    graph[u].append((v, w))           # 정방향
+    reverse_graph[v].append((u, w))   # 역방향
 
-    heap = [(0 ,i)]
+def dijkstra(start, graph):
+    dist = [INF] * (n + 1)
+    dist[start] = 0
+    heap = [(0, start)]
 
     while heap:
-        value, now = heappop(heap)
-        if dijkstra[i][now] < value:
+        cost, now = heappop(heap)
+        if dist[now] < cost:
             continue
-        dijkstra[i][now] = value
-        for to, val in l[now]:
-            if dijkstra[i][to] > dijkstra[i][now]+val :
-                dijkstra[i][to] = dijkstra[i][now]+val
-                heappush(heap, (dijkstra[i][to], to))
+        for to, weight in graph[now]:
+            if dist[to] > cost + weight:
+                dist[to] = cost + weight
+                heappush(heap, (dist[to], to))
+    return dist
 
-ans = 0
-for i in range(1,n+1):
-    ans = max(ans, dijkstra[x][i] + dijkstra[i][x])
-    
-print(ans)
+go = dijkstra(x, graph)         # X → i
+back = dijkstra(x, reverse_graph)  # i → X
 
+# 각 학생 i의 왕복 시간: i → X + X → i
+answer = max(go[i] + back[i] for i in range(1, n + 1))
+print(answer)
