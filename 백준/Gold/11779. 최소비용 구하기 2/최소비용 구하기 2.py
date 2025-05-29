@@ -1,41 +1,44 @@
-from sys import stdin
 import heapq
 
+def dijkstra(graph, start):
+    # 최단 거리 배열을 무한대로 초기화
+    dist = [ (float('inf'), "" ) for i in range(N+1)] 
+    dist[start] = (0, str(start))  # 시작 노드의 거리는 0
 
-def dijkstra(start):
-    q = []
-    heapq.heappush(q, (0, start, 1, str(start)+" "))
-    distance[start] = 0
+    # 우선순위 큐 (거리, 노드) 형식으로 큐에 삽입
+    pq = [(0, start, str(start))]  # (거리, 노드)
 
-    while q:
-        dist, node, count, route = heapq.heappop(q)
+    while pq:
+        current_dist, current_node, route = heapq.heappop(pq)
 
-        if distance[node] < dist:
+        # 이미 방문한 노드라면 skip
+        if current_dist > dist[current_node][0]:
             continue
 
-        for next in graph[node]:
-            cost = distance[node] + next[1]
-            if cost < (distance[next[0]]):
-                distance[next[0]] = cost
-                routes[next[0]] = route + str(next[0]) + " "
-                counts[next[0]] = count + 1
-                heapq.heappush(
-                    q, (cost, next[0], count+1, route + str(next[0]) + " "))
+        # 인접한 노드들을 탐색
+        for neighbor, weight in graph[current_node]:
+            distance = current_dist + weight
 
+            # 더 작은 경로가 발견되면 갱신
+            if distance < dist[neighbor][0]:
+                newRoute =  route + " " + str(neighbor)
+                dist[neighbor] = (distance, newRoute)
+                heapq.heappush(pq, (distance, neighbor, newRoute))
 
-n = int(stdin.readline())
-m = int(stdin.readline())
-graph = [[] for _ in range(n+1)]
-distance = [int(1e9) for _ in range(n+1)]
-counts = [0 for _ in range(n+1)]
-routes = ["" for _ in range(n+1)]
-for _ in range(m):
-    u, v, w = map(int, stdin.readline().split())
-    graph[u].append((v, w))
-fr, to = map(int, input().split())
+    return dist
 
-dijkstra(fr)
+N = int(input())
+M = int(input())
+graph = [[] for _ in range(N+1)]
 
-print(distance[to])
-print(counts[to])
-print(routes[to])
+for i in range(M):
+    fr,to,cost = map(int,input().split())
+    graph[fr].append((to,cost))
+
+start,end = map(int,input().split())
+
+ans = dijkstra(graph,start)
+
+print(ans[end][0])
+print(len(ans[end][1].split()))
+print(" ".join(ans[end][1].split()))
